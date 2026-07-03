@@ -155,6 +155,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       "geometry-1",
       "html",
       "infra",
+      "manifest-incubations",
       "permissions",
       "webidl",
       "window-management"
@@ -165,7 +166,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "generatedSubtitle": "Unofficial Draft 03 July 2026"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD"></head>
-  <body class="h-entry informative" data-cite="WEBIDL appmanifest dom geometry-1 html infra permissions webidl window-management HTML INFRA URL WEBIDL DOM FETCH"><div class="head">
+  <body class="h-entry informative" data-cite="WEBIDL appmanifest dom geometry-1 html infra manifest-incubations permissions webidl window-management HTML INFRA URL WEBIDL DOM FETCH"><div class="head">
     
     <h1 id="title" class="title">ChromeOS APIs for Isolated Web Apps</h1> 
     <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2026-07-03">03 July 2026</time></p>
@@ -320,8 +321,8 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
           <li>Let <var>promise</var> be <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-new-promise">a new promise</a>.</li>
           <li>Let <var>window</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#current-global-object">current global object</a>.</li>
           <li>
-            If the <a data-link-type="dfn" href="https://www.w3.org/TR/appmanifest/#dfn-display-mode">display mode</a> of <var>window</var> is not "unframed", <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject">reject</a>
-            <var>promise</var> with an <a data-link-type="exception" data-lt="InvalidStateError" href="https://webidl.spec.whatwg.org/#invalidstateerror"><code>InvalidStateError</code></a> and return <var>promise</var>.
+            If the <a data-link-type="dfn" href="https://www.w3.org/TR/appmanifest/#dfn-display-mode">display mode</a> of <var>window</var> is not "<a href="https://wicg.github.io/manifest-incubations/#dfn-unframed">unframed</a>", <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject">reject</a> <var>promise</var> with an <a data-link-type="exception" data-lt="InvalidStateError" href="https://webidl.spec.whatwg.org/#invalidstateerror"><code>InvalidStateError</code></a> and return
+            <var>promise</var>.
           </li>
           <li>
             If <var>rects</var>'s <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-size">size</a> is greater than 10000, <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject">reject</a>
@@ -371,8 +372,9 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
               </li>
               <li>
                 If the <a data-link-type="dfn" href="https://www.w3.org/TR/appmanifest/#dfn-display-mode">display mode</a> of the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#current-global-object">current global object</a> is not
-                "unframed", <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject">reject</a> <var>promise</var> with <a data-link-type="exception" data-lt="InvalidStateError" href="https://webidl.spec.whatwg.org/#invalidstateerror"><code>InvalidStateError</code></a> and
-                abort these steps.
+                "<a href="https://wicg.github.io/manifest-incubations/#dfn-unframed">unframed</a>",
+                <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject">reject</a> <var>promise</var> with <a data-link-type="exception" data-lt="InvalidStateError" href="https://webidl.spec.whatwg.org/#invalidstateerror"><code>InvalidStateError</code></a> and abort these
+                steps.
               </li>
               <li>
                 Ask the host operating system to set <var>targetWindow</var>'s shape to
@@ -477,6 +479,8 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
       <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Anne van Kesteren; Domenic Denicola; Dominic Farolino; Ian Hickson; Philip Jägenstedt; Simon Pieters.  WHATWG. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
     </dd><dt id="bib-infra">[infra]</dt><dd>
       <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Anne van Kesteren; Domenic Denicola.  WHATWG. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
+    </dd><dt id="bib-manifest-incubations">[manifest-incubations]</dt><dd>
+      <a href="https://wicg.github.io/manifest-incubations/"><cite>Manifest Incubations</cite></a>.  W3C. Draft Community Group Report. URL: <a href="https://wicg.github.io/manifest-incubations/">https://wicg.github.io/manifest-incubations/</a>
     </dd><dt id="bib-permissions">[permissions]</dt><dd>
       <a href="https://www.w3.org/TR/permissions/"><cite>Permissions</cite></a>. Marcos Caceres; Mike Taylor.  W3C. 6 October 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/permissions/">https://www.w3.org/TR/permissions/</a>
     </dd><dt id="bib-webidl">[WEBIDL]</dt><dd>
