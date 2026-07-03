@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "format": "npx prettier --write \"**/*.{md,html,yml,json}\"",
+    "dev": "npx live-server"
+  }
+}

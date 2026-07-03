@@ -1,0 +1,26 @@
+name: Format
+on:
+  workflow_dispatch: {}
+  pull_request: {}
+  push:
+    branches: [main]
+jobs:
+  format:
+    name: Check & Auto-Format with Prettier
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Format files with Prettier
+        run: npx prettier --write "**/*.{md,html,yml,json}"
+      - name: Auto-commit formatting changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: Auto-format with Prettier"
+          file_pattern: "*.md *.html *.yml *.json"
