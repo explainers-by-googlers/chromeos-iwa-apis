@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ChromeOS APIs for Isolated Web Apps</title>
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+      class="remove"
+    ></script>
+    <script class="remove">
+      var respecConfig = {
+        specStatus: "unofficial",
+        editors: [
+          {
+            name: "Edman Anjos",
+            mailto: "edmanp@google.com",
+            company: "Google Inc.",
+            companyURL: "https://www.google.com/",
+          },
+        ],
+        github: "explainers-by-googlers/chromeos-iwa-apis",
+        shortName: "chromeos-iwa-apis",
+        xref: {
+          specs: [
+            "appmanifest",
+            "dom",
+            "geometry-1",
+            "html",
+            "infra",
+            "manifest-incubations",
+            "permissions",
+            "webidl",
+            "window-management",
+          ],
+          profile: "web-platform",
+        },
+      };
+    </script>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        This specification defines extensions to the Web platform available in
+        ChromeOS. These extensions are restricted to allowlisted Isolated Web
+        Apps running on ChromeOS.
+      </p>
+    </section>
+    <section id="sotd"></section>
+    <section>
+      <h2>Introduction</h2>
+      <p>
+        ChromeOS provides specialized APIs to allowlisted Isolated Web Apps
+        (IWAs) to enable native-like integration with the operating system. This
+        specification defines the entry points for these APIs and the specific
+        features exposed.
+      </p>
+    </section>
+    <section>
+      <h2>API Entry Points</h2>
+      <p>
+        All ChromeOS-specific Web APIs are exposed via the {{Window/chromeos}}
+        attribute on the {{Window}} object.
+      </p>
+      <pre class="idl">
+        partial interface Window {
+          [Replaceable] readonly attribute ChromeOS chromeos;
+        };
+
+        [Exposed=Window]
+        interface ChromeOS {
+          readonly attribute IsolatedWebApp isolatedWebApp;
+        };
+
+        [Exposed=Window]
+        interface IsolatedWebApp {};
+      </pre>
+
+      <section>
+        <h3>The {{Window/chromeos}} attribute</h3>
+        <p>
+          The {{Window/chromeos}} attribute exposes ChromeOS-specific APIs. This
+          attribute must return null if the current context is not allowlisted
+          to use any of ChromeOS IWA APIs.
+        </p>
+      </section>
+
+      <section>
+        <h3>The {{ChromeOS/isolatedWebApp}} attribute</h3>
+        <p>
+          The {{ChromeOS/isolatedWebApp}} attribute exposes APIs specific to
+          Isolated Web Apps. This attribute must return null if the current
+          context is not an IWA or not allowlisted to use the ChromeOS IWA APIs.
+        </p>
+      </section>
+    </section>
+
+    <section>
+      <h2>Window Shape API</h2>
+      <p>
+        The Window Shape API allows allowlisted IWAs to customize the shape of
+        their window, enabling non-rectangular layouts.
+      </p>
+
+      <section>
+        <h3>Security and Privacy Considerations</h3>
+        <p>
+          Since this API allows changing the visible shape of the window, it
+          could be used to create invisible or extremely small windows to
+          perform malicious actions without the user's knowledge. To mitigate
+          this:
+        </p>
+        <ul>
+          <li>Input validation enforces a minimum size for the shape.</li>
+          <li>The API is restricted to allowlisted Isolated Web Apps.</li>
+          <li>
+            The user must grant the
+            <a data-cite="window-management#permission-window-management"
+              >window-management</a
+            >
+            [=permission=].
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>API Extension</h3>
+        <p>The Window Shape API extends the {{IsolatedWebApp}} interface.</p>
+        <pre class="idl">
+          partial interface IsolatedWebApp {
+            Promise&lt;undefined&gt; setShape(sequence&lt;DOMRectReadOnly&gt; rects);
+          };
+        </pre>
+      </section>
+
+      <section>
+        <h3>The {{IsolatedWebApp/setShape()}} method</h3>
+        <p>
+          The {{IsolatedWebApp/setShape(|rects|)}} method customizes the shape
+          of the window. When called, the [=user agent=] does the following
+          steps:
+        </p>
+        <ol class="algorithm">
+          <li>Let |promise| be [=a new promise=].</li>
+          <li>Let |window| be the [=current global object=].</li>
+          <li>
+            If the [=display mode=] of |window| is not
+            <a data-cite="manifest-incubations#dfn-unframed">unframed</a>,
+            [=reject=] |promise| with an {{InvalidStateError}} and return
+            |promise|.
+          </li>
+          <li>
+            If |rects|'s [=list/size=] is greater than 10000, [=reject=]
+            |promise| with a {{TypeError}} and return |promise|.
+          </li>
+          <li>Let |convertedRects| be an empty [=list=] of rectangles.</li>
+          <li>Let |hasMinimumSizeRect| be false.</li>
+          <li>
+            [=list/For each=] |rect| of |rects|:
+            <ol>
+              <li>
+                If any of |rect|'s `x`, `y`, `width`, or `height` is not finite,
+                [=reject=] |promise| with a {{TypeError}} and return |promise|.
+              </li>
+              <li>
+                If |rect|'s `width` is less than 0 or |rect|'s `height` is less
+                than 0, [=reject=] |promise| with a {{TypeError}} and return
+                |promise|.
+              </li>
+              <li>
+                If |rect|'s `width` is greater than or equal to 10 and |rect|'s
+                `height` is greater than or equal to 10, set
+                |hasMinimumSizeRect| to true.
+              </li>
+              <li>
+                [=list/append=] a new rectangle with `x`, `y`, `width`, and
+                `height` set to the corresponding values from |rect| clamped to
+                the range of a 32-bit signed integer, to |convertedRects|.
+              </li>
+            </ol>
+          </li>
+          <li>
+            If |rects|'s [=list/size=] is greater than 0 and
+            |hasMinimumSizeRect| is false, [=reject=] |promise| with a
+            {{TypeError}} and return |promise|.
+          </li>
+          <li>
+            Run these steps [=in parallel=]:
+            <ol>
+              <li>
+                Let |targetWindow| be the OS window associated with the
+                [=current global object=].
+              </li>
+              <li>
+                If |targetWindow| is null, [=reject=] |promise| with
+                {{InvalidStateError}} and abort these steps.
+              </li>
+              <li>
+                If the [=display mode=] of the [=current global object=] is not
+                <a data-cite="manifest-incubations#dfn-unframed">unframed</a>,
+                [=reject=] |promise| with {{InvalidStateError}} and abort these
+                steps.
+              </li>
+              <li>
+                Ask the host operating system to set |targetWindow|'s shape to
+                the union of |convertedRects|.
+              </li>
+              <li>[=resolve=] |promise| with {{undefined}}.</li>
+            </ol>
+          </li>
+          <li>Return |promise|.</li>
+        </ol>
+      </section>
+    </section>
+  </body>
+</html>

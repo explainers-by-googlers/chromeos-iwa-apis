@@ -1,5 +1,6 @@
 name: CI
 on:
+  workflow_dispatch: {}
   pull_request: {}
   push:
     branches: [main]
@@ -10,8 +11,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: w3c/spec-prod@v2
         with:
+          TOOLCHAIN: respec
+          SOURCE: spec.html
+          DESTINATION: index.html
           GH_PAGES_BRANCH: gh-pages
           BUILD_FAIL_ON: warning
