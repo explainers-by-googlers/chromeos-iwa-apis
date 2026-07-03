@@ -321,7 +321,9 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
           <li>Let <var>promise</var> be <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-new-promise">a new promise</a>.</li>
           <li>Let <var>window</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#current-global-object">current global object</a>.</li>
           <li>
-            If the <a data-link-type="dfn" href="https://www.w3.org/TR/appmanifest/#dfn-display-mode">display mode</a> of <var>window</var> is not "<a href="https://wicg.github.io/manifest-incubations/#dfn-unframed">unframed</a>", <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject">reject</a> <var>promise</var> with an <a data-link-type="exception" data-lt="InvalidStateError" href="https://webidl.spec.whatwg.org/#invalidstateerror"><code>InvalidStateError</code></a> and return
+            If the <a data-link-type="dfn" href="https://www.w3.org/TR/appmanifest/#dfn-display-mode">display mode</a> of <var>window</var> is not
+            <a href="https://wicg.github.io/manifest-incubations/#dfn-unframed">unframed</a>,
+            <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject">reject</a> <var>promise</var> with an <a data-link-type="exception" data-lt="InvalidStateError" href="https://webidl.spec.whatwg.org/#invalidstateerror"><code>InvalidStateError</code></a> and return
             <var>promise</var>.
           </li>
           <li>
@@ -372,7 +374,7 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
               </li>
               <li>
                 If the <a data-link-type="dfn" href="https://www.w3.org/TR/appmanifest/#dfn-display-mode">display mode</a> of the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#current-global-object">current global object</a> is not
-                "<a href="https://wicg.github.io/manifest-incubations/#dfn-unframed">unframed</a>",
+                <a href="https://wicg.github.io/manifest-incubations/#dfn-unframed">unframed</a>,
                 <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject">reject</a> <var>promise</var> with <a data-link-type="exception" data-lt="InvalidStateError" href="https://webidl.spec.whatwg.org/#invalidstateerror"><code>InvalidStateError</code></a> and abort these
                 steps.
               </li>
