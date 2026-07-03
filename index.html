@@ -53,7 +53,7 @@ dfn{cursor:pointer}
 </style>
     
     
-<title>ChromeOS Blink Extensions for IWAs</title>
+<title>ChromeOS APIs for Isolated Web Apps</title>
     
 <style id="respec-mainstyle">
 @keyframes pop{
@@ -140,8 +140,10 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "editors": [
     {
       "name": "Edman Anjos",
-      "company": "Google",
-      "companyURL": "https://www.google.com/"
+      "mailto": "edmanp@google.com",
+      "company": "Google Inc.",
+      "companyURL": "https://www.google.com/",
+      "url": "mailto:edmanp@google.com"
     }
   ],
   "github": "explainers-by-googlers/chromeos-iwa-apis",
@@ -153,7 +155,9 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       "geometry-1",
       "html",
       "infra",
-      "webidl"
+      "permissions",
+      "webidl",
+      "window-management"
     ],
     "profile": "web-platform"
   },
@@ -161,9 +165,9 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "generatedSubtitle": "Unofficial Draft 03 July 2026"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD"></head>
-  <body class="h-entry" data-cite="WEBIDL appmanifest dom geometry-1 html infra webidl HTML INFRA URL WEBIDL DOM FETCH"><div class="head">
+  <body class="h-entry informative" data-cite="WEBIDL appmanifest dom geometry-1 html infra permissions webidl window-management HTML INFRA URL WEBIDL DOM FETCH"><div class="head">
     
-    <h1 id="title" class="title">ChromeOS Blink Extensions for IWAs</h1> 
+    <h1 id="title" class="title">ChromeOS APIs for Isolated Web Apps</h1> 
     <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2026-07-03">03 July 2026</time></p>
     <details open="">
       <summary>More details about this document</summary>
@@ -184,7 +188,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         <dt>
                 Editor:
               </dt><dd class="editor p-author h-card vcard">
-    <span class="p-name fn">Edman Anjos</span> (<a class="p-org org h-org" href="https://www.google.com/">Google</a>)
+    <a class="ed_mailto u-email email p-name" href="mailto:edmanp@google.com">Edman Anjos</a> (<a class="p-org org h-org" href="https://www.google.com/">Google Inc.</a>)
   </dd>
         
         
@@ -216,11 +220,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         Apps running on ChromeOS.
       </p>
     </section>
-    <section id="sotd" class="introductory"><h2>Status of This Document</h2><p>
-      This document is a draft of a potential specification. It has no official
-      standing of any kind and does not represent the support or consensus of
-      any standards organization.
-    </p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#api-entry-points"><bdi class="secno">2. </bdi>API Entry Points</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#the-chromeos-attribute"><bdi class="secno">2.1 </bdi>The <code>chromeos</code> attribute</a></li><li class="tocline"><a class="tocxref" href="#the-isolatedwebapp-attribute"><bdi class="secno">2.2 </bdi>The <code>isolatedWebApp</code> attribute</a></li></ol></li><li class="tocline"><a class="tocxref" href="#window-shape-api"><bdi class="secno">3. </bdi>Window Shape API</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#security-and-privacy-considerations"><bdi class="secno">3.1 </bdi>Security and Privacy Considerations</a></li><li class="tocline"><a class="tocxref" href="#api-extension"><bdi class="secno">3.2 </bdi>API Extension</a></li><li class="tocline"><a class="tocxref" href="#the-setshape-method"><bdi class="secno">3.3 </bdi>The <code>setShape()</code> method</a></li></ol></li><li class="tocline"><a class="tocxref" href="#conformance"><bdi class="secno">4. </bdi>Conformance</a></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">A. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">A.1 </bdi>Normative references</a></li></ol></li></ol></nav>
+    <section id="sotd" class="override introductory"><h2>Status of This Document</h2>
+      
+      <p>
+        This document is a specification of ChromeOS-specific APIs for
+        allowlisted Isolated Web Apps. It has no official standing of any kind
+        and does not represent the support or consensus of any standards
+        organization.
+      </p>
+    </section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#api-entry-points"><bdi class="secno">2. </bdi>API Entry Points</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#the-chromeos-attribute"><bdi class="secno">2.1 </bdi>The <span data-link-type="idl" data-xref-type="attribute|dict-member|const" data-link-for="Window" data-xref-for="Window" class="formerLink"><code>chromeos</code></span> attribute</a></li><li class="tocline"><a class="tocxref" href="#the-isolatedwebapp-attribute"><bdi class="secno">2.2 </bdi>The <span data-link-type="idl" data-xref-type="attribute|dict-member|const" data-link-for="ChromeOS" data-xref-for="ChromeOS" class="formerLink"><code>isolatedWebApp</code></span> attribute</a></li></ol></li><li class="tocline"><a class="tocxref" href="#window-shape-api"><bdi class="secno">3. </bdi>Window Shape API</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#security-and-privacy-considerations"><bdi class="secno">3.1 </bdi>Security and Privacy Considerations</a></li><li class="tocline"><a class="tocxref" href="#api-extension"><bdi class="secno">3.2 </bdi>API Extension</a></li><li class="tocline"><a class="tocxref" href="#the-setshape-method"><bdi class="secno">3.3 </bdi>The <span data-link-type="idl" data-xref-type="method" data-link-for="IsolatedWebApp" data-xref-for="IsolatedWebApp" data-lt="setShape()" class="formerLink"><code>setShape</code></span><code>()</code> method</a></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">A. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">A.1 </bdi>Informative references</a></li></ol></li></ol></nav>
     <section id="introduction"><div class="header-wrapper"><h2 id="x1-introduction"><bdi class="secno">1. </bdi>Introduction</h2><a class="self-link" href="#introduction" aria-label="Permalink for Section 1."></a></div>
       
       <p>
@@ -233,8 +241,8 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <section id="api-entry-points"><div class="header-wrapper"><h2 id="x2-api-entry-points"><bdi class="secno">2. </bdi>API Entry Points</h2><a class="self-link" href="#api-entry-points" aria-label="Permalink for Section 2."></a></div>
       
       <p>
-        All ChromeOS-specific Web APIs are exposed via the <code>chromeos</code> attribute
-        on the <code>Window</code> object.
+        All ChromeOS-specific Web APIs are exposed via the <a data-link-type="idl" href="#dom-window-chromeos" class="internalDFN" id="ref-for-dom-window-chromeos-1"><code>chromeos</code></a>
+        attribute on the <a data-link-type="interface" data-lt="Window" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"><code>Window</code></a> object.
       </p>
       <pre class="idl def" id="webidl-31679551"><span class="idlHeader"><a class="self-link" href="#webidl-31679551">WebIDL</a></span><code><span data-idl="" class="idlInterface" id="idl-def-window-partial-1" data-title="Window">partial interface <a data-idl="partial" data-link-type="interface" data-title="Window" class="idlID" data-dfn-for="Window" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window">Window</a> {<span data-idl="" class="idlAttribute" id="idl-def-window-chromeos" data-title="chromeos" data-dfn-for="Window">
   [<span class="extAttr"><a data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Replaceable">Replaceable</a></span>] readonly attribute<span class="idlType"> <a data-link-type="idl" href="#dom-chromeos" class="internalDFN" id="ref-for-dom-chromeos-1"><code>ChromeOS</code></a></span> <dfn data-export="" data-dfn-type="attribute" id="dom-window-chromeos" data-idl="attribute" data-title="chromeos" data-dfn-for="Window" data-type="ChromeOS" data-lt="chromeos" data-local-lt="Window.chromeos" class="idlName" tabindex="0" aria-haspopup="dialog"><code>chromeos</code></dfn>;</span>
@@ -248,21 +256,21 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-chromeos" data-i
 [<span class="extAttr"><a data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed">Exposed</a>=Window</span>]
 interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" data-idl="interface" data-title="IsolatedWebApp" data-dfn-for="" class="idlID" tabindex="0" aria-haspopup="dialog"><code>IsolatedWebApp</code></dfn> {};</span></code></pre>
 
-      <section id="the-chromeos-attribute"><div class="header-wrapper"><h3 id="x2-1-the-chromeos-attribute"><bdi class="secno">2.1 </bdi>The <code>chromeos</code> attribute</h3><a class="self-link" href="#the-chromeos-attribute" aria-label="Permalink for Section 2.1"></a></div>
+      <section id="the-chromeos-attribute"><div class="header-wrapper"><h3 id="x2-1-the-chromeos-attribute"><bdi class="secno">2.1 </bdi>The <a data-link-type="idl" href="#dom-window-chromeos" class="internalDFN" id="ref-for-dom-window-chromeos-2"><code>chromeos</code></a> attribute</h3><a class="self-link" href="#the-chromeos-attribute" aria-label="Permalink for Section 2.1"></a></div>
         
         <p>
-          The <code>chromeos</code> attribute exposes ChromeOS-specific APIs. This
+          The <a data-link-type="idl" href="#dom-window-chromeos" class="internalDFN" id="ref-for-dom-window-chromeos-3"><code>chromeos</code></a> attribute exposes ChromeOS-specific APIs. This
           attribute must return null if the current context is not allowlisted
           to use any of ChromeOS IWA APIs.
         </p>
       </section>
 
-      <section id="the-isolatedwebapp-attribute"><div class="header-wrapper"><h3 id="x2-2-the-isolatedwebapp-attribute"><bdi class="secno">2.2 </bdi>The <code>isolatedWebApp</code> attribute</h3><a class="self-link" href="#the-isolatedwebapp-attribute" aria-label="Permalink for Section 2.2"></a></div>
+      <section id="the-isolatedwebapp-attribute"><div class="header-wrapper"><h3 id="x2-2-the-isolatedwebapp-attribute"><bdi class="secno">2.2 </bdi>The <a data-link-type="idl" href="#dom-chromeos-isolatedwebapp" class="internalDFN" id="ref-for-dom-chromeos-isolatedwebapp-1"><code>isolatedWebApp</code></a> attribute</h3><a class="self-link" href="#the-isolatedwebapp-attribute" aria-label="Permalink for Section 2.2"></a></div>
         
         <p>
-          The <code>isolatedWebApp</code> attribute exposes APIs specific to Isolated Web
-          Apps. This attribute must return null if the current context is not an
-          IWA or not allowlisted to use the ChromeOS IWA APIs.
+          The <a data-link-type="idl" href="#dom-chromeos-isolatedwebapp" class="internalDFN" id="ref-for-dom-chromeos-isolatedwebapp-2"><code>isolatedWebApp</code></a> attribute exposes APIs specific to
+          Isolated Web Apps. This attribute must return null if the current
+          context is not an IWA or not allowlisted to use the ChromeOS IWA APIs.
         </p>
       </section>
     </section>
@@ -285,24 +293,28 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
         <ul>
           <li>Input validation enforces a minimum size for the shape.</li>
           <li>The API is restricted to allowlisted Isolated Web Apps.</li>
-          <li>The user must grant the <code>window-management</code> permission.</li>
+          <li>
+            The user must grant the
+            <a href="https://www.w3.org/TR/window-management/#permission-window-management">window-management</a>
+            <a data-link-type="dfn" href="https://www.w3.org/TR/permissions/#dfn-permission">permission</a>.
+          </li>
         </ul>
       </section>
 
       <section id="api-extension"><div class="header-wrapper"><h3 id="x3-2-api-extension"><bdi class="secno">3.2 </bdi>API Extension</h3><a class="self-link" href="#api-extension" aria-label="Permalink for Section 3.2"></a></div>
         
-        <p>The Window Shape API extends the <code>IsolatedWebApp</code> interface.</p>
-        <pre class="idl def" id="webidl-687414243"><span class="idlHeader"><a class="self-link" href="#webidl-687414243">WebIDL</a></span><code><span data-idl="" class="idlInterface" id="idl-def-isolatedwebapp-partial-1" data-title="IsolatedWebApp">partial interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-isolatedwebapp" id="ref-for-dom-isolatedwebapp-2"><code>IsolatedWebApp</code></a> {<span data-idl="" class="idlMethod" id="idl-def-isolatedwebapp-setshape-rects" data-title="setShape" data-dfn-for="IsolatedWebApp"><span class="idlType">
+        <p>The Window Shape API extends the <a data-link-type="idl" data-lt="IsolatedWebApp" href="#dom-isolatedwebapp" class="internalDFN" id="ref-for-dom-isolatedwebapp-2"><code>IsolatedWebApp</code></a> interface.</p>
+        <pre class="idl def" id="webidl-687414243"><span class="idlHeader"><a class="self-link" href="#webidl-687414243">WebIDL</a></span><code><span data-idl="" class="idlInterface" id="idl-def-isolatedwebapp-partial-1" data-title="IsolatedWebApp">partial interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-isolatedwebapp" id="ref-for-dom-isolatedwebapp-3"><code>IsolatedWebApp</code></a> {<span data-idl="" class="idlMethod" id="idl-def-isolatedwebapp-setshape-rects" data-title="setShape" data-dfn-for="IsolatedWebApp"><span class="idlType">
   <a data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-promise">Promise</a>&lt;<a data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-undefined">undefined</a>&gt;</span> <dfn data-export="" data-dfn-type="method" id="dom-isolatedwebapp-setshape" data-idl="operation" data-title="setShape" data-dfn-for="IsolatedWebApp" data-type="Promise" data-lt="setShape()|setShape(rects)" data-local-lt="IsolatedWebApp.setShape|IsolatedWebApp.setShape()|setShape" class="idlName" tabindex="0" aria-haspopup="dialog"><code>setShape</code></dfn>(<span class="idlType"><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#idl-sequence">sequence</a>&lt;<a data-link-type="interface" href="https://www.w3.org/TR/geometry-1/#domrectreadonly">DOMRectReadOnly</a>&gt;</span> <span class="idlParamName">rects</span>);</span>
 };</span></code></pre>
       </section>
 
-      <section id="the-setshape-method"><div class="header-wrapper"><h3 id="x3-3-the-setshape-method"><bdi class="secno">3.3 </bdi>The <code>setShape()</code> method</h3><a class="self-link" href="#the-setshape-method" aria-label="Permalink for Section 3.3"></a></div>
+      <section id="the-setshape-method"><div class="header-wrapper"><h3 id="x3-3-the-setshape-method"><bdi class="secno">3.3 </bdi>The <a data-link-type="idl" data-lt="setShape()" href="#dom-isolatedwebapp-setshape" class="internalDFN" id="ref-for-dom-isolatedwebapp-setshape-1"><code>setShape</code></a><code>()</code> method</h3><a class="self-link" href="#the-setshape-method" aria-label="Permalink for Section 3.3"></a></div>
         
         <p>
-          The <code>setShape(|rects|)</code> method customizes the shape of the window. The
-          <var>rects</var> argument is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list">list</a> of <a data-link-type="interface" data-lt="DOMRectReadOnly" href="https://www.w3.org/TR/geometry-1/#domrectreadonly"><code>DOMRectReadOnly</code></a> objects. When
-          called, it <em class="rfc2119">MUST</em> run the following steps:
+          The <a data-link-type="idl" data-lt="setShape(|rects|)" href="#dom-isolatedwebapp-setshape" class="internalDFN" id="ref-for-dom-isolatedwebapp-setshape-2"><code>setShape</code></a><code>(<var>|rects|</var>)</code> method customizes the shape
+          of the window. When called, the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agent</a> does the following
+          steps:
         </p>
         <ol class="algorithm">
           <li>Let <var>promise</var> be <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-new-promise">a new promise</a>.</li>
@@ -373,15 +385,6 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
         </ol>
       </section>
     </section>
-
-    <section id="conformance"><div class="header-wrapper"><h2 id="x4-conformance"><bdi class="secno">4. </bdi>Conformance</h2><a class="self-link" href="#conformance" aria-label="Permalink for Section 4."></a></div><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p><p>
-        The key word <em class="rfc2119">MUST</em> in this document
-        is to be interpreted as described in
-        <a href="https://www.rfc-editor.org/info/bcp14">BCP 14</a>
-        [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">RFC2119</a></cite>] [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc8174" title="Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words">RFC8174</a></cite>]
-        when, and only when, it appears in all
-        capitals, as shown here.
-      </p></section>
   
 
 <div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dom-window-chromeos" aria-label="Links in this document to definition: chromeos">
@@ -393,8 +396,12 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
-      <li>Not referenced in this document.</li>
-    </ul>
+    <li>
+      <a href="#ref-for-dom-window-chromeos-1" title="§ 2. API Entry Points">§ 2. API Entry Points</a> 
+    </li><li>
+      <a href="#ref-for-dom-window-chromeos-2" title="§ 2.1 The chromeos attribute">§ 2.1 The chromeos attribute</a> <a href="#ref-for-dom-window-chromeos-3" title="Reference 2">(2)</a> 
+    </li>
+  </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dom-chromeos" aria-label="Links in this document to definition: ChromeOS">
       <span class="caret"></span>
       <div>
@@ -417,8 +424,10 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
-      <li>Not referenced in this document.</li>
-    </ul>
+    <li>
+      <a href="#ref-for-dom-chromeos-isolatedwebapp-1" title="§ 2.2 The isolatedWebApp attribute">§ 2.2 The isolatedWebApp attribute</a> <a href="#ref-for-dom-chromeos-isolatedwebapp-2" title="Reference 2">(2)</a> 
+    </li>
+  </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dom-isolatedwebapp" aria-label="Links in this document to definition: IsolatedWebApp">
       <span class="caret"></span>
       <div>
@@ -431,7 +440,7 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
     <li>
       <a href="#ref-for-dom-isolatedwebapp-1" title="§ 2. API Entry Points">§ 2. API Entry Points</a> 
     </li><li>
-      <a href="#ref-for-dom-isolatedwebapp-2" title="§ 3.2 API Extension">§ 3.2 API Extension</a> 
+      <a href="#ref-for-dom-isolatedwebapp-2" title="§ 3.2 API Extension">§ 3.2 API Extension</a> <a href="#ref-for-dom-isolatedwebapp-3" title="Reference 2">(2)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dom-isolatedwebapp-setshape" aria-label="Links in this document to definition: setShape">
@@ -443,8 +452,10 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
-      <li>Not referenced in this document.</li>
-    </ul>
+    <li>
+      <a href="#ref-for-dom-isolatedwebapp-setshape-1" title="§ 3.3 The setShape() method">§ 3.3 The setShape() method</a> <a href="#ref-for-dom-isolatedwebapp-setshape-2" title="Reference 2">(2)</a> 
+    </li>
+  </ul>
     </div><script id="respec-copy-paste">
     document.querySelectorAll(".respec-button-copy-paste").forEach(function(btn) {
       btn.addEventListener("click", function() {
@@ -456,7 +467,7 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
         navigator.clipboard.writeText(clone.textContent);
       });
     });
-  </script><section id="references" class="appendix"><div class="header-wrapper"><h2 id="a-references"><bdi class="secno">A. </bdi>References</h2><a class="self-link" href="#references" aria-label="Permalink for Appendix A."></a></div><section id="normative-references"><div class="header-wrapper"><h3 id="a-1-normative-references"><bdi class="secno">A.1 </bdi>Normative references</h3><a class="self-link" href="#normative-references" aria-label="Permalink for Appendix A.1"></a></div>
+  </script><section id="references" class="appendix"><div class="header-wrapper"><h2 id="a-references"><bdi class="secno">A. </bdi>References</h2><a class="self-link" href="#references" aria-label="Permalink for Appendix A."></a></div><section id="informative-references"><div class="header-wrapper"><h3 id="a-1-informative-references"><bdi class="secno">A.1 </bdi>Informative references</h3><a class="self-link" href="#informative-references" aria-label="Permalink for Appendix A.1"></a></div>
     
     <dl class="bibliography"><dt id="bib-appmanifest">[appmanifest]</dt><dd>
       <a href="https://www.w3.org/TR/appmanifest/"><cite>Web Application Manifest</cite></a>. Marcos Caceres; Daniel Murphy; Christian Liebel.  W3C. 7 May 2026. W3C Working Draft. URL: <a href="https://www.w3.org/TR/appmanifest/">https://www.w3.org/TR/appmanifest/</a>
@@ -466,12 +477,12 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
       <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Anne van Kesteren; Domenic Denicola; Dominic Farolino; Ian Hickson; Philip Jägenstedt; Simon Pieters.  WHATWG. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
     </dd><dt id="bib-infra">[infra]</dt><dd>
       <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Anne van Kesteren; Domenic Denicola.  WHATWG. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
-    </dd><dt id="bib-rfc2119">[RFC2119]</dt><dd>
-      <a href="https://www.rfc-editor.org/info/rfc2119/"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. S. Bradner.  IETF. March 1997. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc2119/">https://www.rfc-editor.org/info/rfc2119/</a>
-    </dd><dt id="bib-rfc8174">[RFC8174]</dt><dd>
-      <a href="https://www.rfc-editor.org/info/rfc8174/"><cite>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</cite></a>. B. Leiba.  IETF. May 2017. Best Current Practice. URL: <a href="https://www.rfc-editor.org/info/rfc8174/">https://www.rfc-editor.org/info/rfc8174/</a>
+    </dd><dt id="bib-permissions">[permissions]</dt><dd>
+      <a href="https://www.w3.org/TR/permissions/"><cite>Permissions</cite></a>. Marcos Caceres; Mike Taylor.  W3C. 6 October 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/permissions/">https://www.w3.org/TR/permissions/</a>
     </dd><dt id="bib-webidl">[WEBIDL]</dt><dd>
       <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Edgar Chen; Timothy Gu.  WHATWG. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
+    </dd><dt id="bib-window-management">[window-management]</dt><dd>
+      <a href="https://www.w3.org/TR/window-management/"><cite>Window Management</cite></a>. Joshua Bell; Mike Wasserman.  W3C. 7 June 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/window-management/">https://www.w3.org/TR/window-management/</a>
     </dd></dl>
   </section></section><p role="navigation" id="back-to-top">
     <a href="#title"><abbr title="Back to Top">↑</abbr></a>
