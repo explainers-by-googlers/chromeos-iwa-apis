@@ -3,7 +3,7 @@
 Security and privacy questionnaire for the
 [Window Shape API](https://github.com/explainers-by-googlers/chromeos-iwa-apis/blob/main/window-shape-explainer.md).
 
---------------------------------------------------------------------------------
+---
 
 1.  **What information does this feature expose, and for what purposes?**
 
@@ -135,8 +135,7 @@ Security and privacy questionnaire for the
 
 22. **What should this questionnaire have asked?**
 
-    *   Are there limits to shape complexity?
+    - Are there limits to shape complexity?
 
     Yes, limited to 10,000 rectangles to prevent performance degradation and
     abuse.
-
