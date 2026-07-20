@@ -74,3 +74,73 @@ exploitation.
 
 Restricting the API to allowlisted origins ensures that only trusted, vetted
 applications can use this capability on ChromeOS.
+
+## Scope considerations
+
+### Why not standardize this API?
+
+With the deprecation of Chrome Apps, Virtual Desktop Infrastructure (VDI)
+partners transitioning to IWAs require more capabilities from the platform to
+implement essential features (e.g., custom floating overlays and widgets). One
+such capability available in Chrome Apps is the
+`chrome.app.window.setShape([rects])` API.
+
+The proposed `window.chromeos.isolatedWebApp.setShape` mirrors the existing
+Chrome App API to IWAs. Doing this ensures timely migration to IWAs as it
+minimizes window management logic changes for partner applications.
+
+While `setShape` de-risks the Chrome App deprecation effort, the API does not
+have a good use-case fit as is required for standardization. The VDI use cases
+we are aware of are better served in the long run by more specific web APIs,
+rather than general window shape masking.
+
+For example, the use case of a floating overlay is better served with an API
+specific for such floating windows.
+
+### Why restrict to an allowlist?
+
+It is undesirable that the API gets widespread adoption if it has no path to
+standardization. The allowlist enforces the API is only used for the VDI
+scenarios it is intended for.
+
+Currently the allowlist contains the few VDI partners that use the Chrome App
+API and want to continue to use it in their IWAs. Other IWA developers in the
+VDI space expressed no interest in joining the allowlist. Although more apps can
+be added to the allowlist in the future, we don't expect this will happen
+frequently and the allowlist will remain small.
+
+### Why restrict to ChromeOS?
+
+This API aims to facilitate the migration from Chrome Apps to IWAs in existing
+production deployments. Given that Chrome Apps are deprecated in all other
+platforms, this API only needs to be available in ChromeOS to achieve its goal.
+
+The API is therefore restricted to ChromeOS because the indented adoption is
+limited to ChromeOS.
+
+Additional reasons are:
+
+- The API is implemented as a
+  [Blink extension](https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/extensions/README.md;drc=5a634aaffd86f5585918bd2050ab6bceabaac6cf).
+  As such, it is restricted to the embedder that implements it. In this case,
+  Chrome on ChromeOS.
+- The original `chrome.app.window.setShape([rects])` API for Chrome Apps is
+  only actively supported in ChromeOS.
+- The `setShape` API requires the window to be in `unframed` display mode,
+  which is only supported in ChromeOS. See details in the
+  [Unframed Windows Explainer](https://github.com/WICG/manifest-incubations/blob/gh-pages/unframed-explainer.md).
+
+## Alternatives considered
+
+### Other input shape formats
+
+Besides a list of `DOMRect[]`, we could use other formats to define the window
+shape, such as CSS `clip-path`, polygons, or SVG path strings.
+
+These alternatives are rejected because signature and behavior parity with
+`chrome.app.window.setShape([rects])` is essential for partner migration.
+Requiring partners to convert existing logic creates unnecessary migration
+friction.
+
+Another advantage of `DOMRect` is it has a straightforward mapping to the
+underlying compositor primitives, which simplifies the implementation.
