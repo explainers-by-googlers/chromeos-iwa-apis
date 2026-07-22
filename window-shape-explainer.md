@@ -53,6 +53,31 @@ await window.chromeos.isolatedWebApp.setShape([]);
   invisible windows. At least one rectangle in the custom shape must meet this
   requirement.
 
+### Coordinate space and scaling
+
+The coordinates and dimensions of the `DOMRect` objects passed to
+`window.chromeos.isolatedWebApp.setShape()` are specified in Device Independent
+Pixels (DIPs) (the local coordinate space of the operating system window). At
+100% page zoom, 1 DIP equals 1 CSS pixel.
+
+When the browser applies the shape to the operating system window:
+
+- **Fractional Coordinates**: While `DOMRect` properties (`x`, `y`, `width`,
+  `height`) accept floating-point numbers, the underlying operating system
+  window shape primitives operate on integer pixel boundaries. When applying
+  the shape, fractional DIP coordinate values are truncated to integers and
+  clamped to the range of a 32-bit signed integer.
+- **Device Pixel Ratio (DPR)**: On high-density displays (where
+  `window.devicePixelRatio` is not `1.0`), the window compositor and event
+  targeter automatically scale the DIP coordinates by the display's device
+  scale factor to determine physical device pixel boundaries. Developers do
+  not need to perform manual coordinate scaling for high-DPI screens.
+- **Page Zoom**: Because coordinates are evaluated in window DIPs rather than
+  CSS pixels, applying page zoom to the web document does not change the
+  physical window shape. Developers only need to adjust coordinates on page
+  zoom changes if they intend for the window shape to scale alongside zoomed
+  DOM content.
+
 ## Security & privacy considerations
 
 ### Invisible/tiny windows

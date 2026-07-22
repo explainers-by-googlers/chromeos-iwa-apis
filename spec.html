@@ -23,6 +23,7 @@
         xref: {
           specs: [
             "appmanifest",
+            "cssom-view",
             "dom",
             "geometry-1",
             "html",
@@ -131,6 +132,45 @@
       </section>
 
       <section>
+        <h3>Coordinate Space and Scaling</h3>
+        <p>
+          The coordinates and dimensions of the {{DOMRectReadOnly}} objects
+          passed to {{IsolatedWebApp/setShape()}} are specified in Device
+          Independent Pixels (DIPs) within the local coordinate space of the
+          operating system window. At 100% page zoom, 1 DIP corresponds to 1 CSS
+          pixel.
+        </p>
+        <p>
+          When the [=user agent=] applies the shape to the underlying operating
+          system window:
+        </p>
+        <ul>
+          <li>
+            <strong>Fractional Coordinates:</strong> While {{DOMRectReadOnly}}
+            properties (`x`, `y`, `width`, `height`) accept floating-point
+            numbers, the host operating system window shape primitives operate
+            on integer pixel boundaries. When applying the shape, fractional DIP
+            coordinate values are truncated to integers and clamped to the range
+            of a 32-bit signed integer.
+          </li>
+          <li>
+            <strong>Device Pixel Ratio (DPR):</strong> On high-density displays
+            (where {{Window/devicePixelRatio}} is not 1.0), the host window
+            compositor automatically scales DIP coordinates by the display's
+            device scale factor to determine physical device pixel boundaries.
+            Developers do not need to perform manual coordinate scaling.
+          </li>
+          <li>
+            <strong>Page Zoom:</strong> Because coordinates operate in window
+            DIPs rather than document CSS pixels, page zoom does not scale the
+            window shape. Developers only need to adjust coordinates on page
+            zoom changes if they intend for the window shape to scale alongside
+            zoomed DOM content.
+          </li>
+        </ul>
+      </section>
+
+      <section>
         <h3>API Extension</h3>
         <p>The Window Shape API extends the {{IsolatedWebApp}} interface.</p>
         <pre class="idl">
@@ -181,8 +221,9 @@
               </li>
               <li>
                 [=list/append=] a new rectangle with `x`, `y`, `width`, and
-                `height` set to the corresponding values from |rect| clamped to
-                the range of a 32-bit signed integer, to |convertedRects|.
+                `height` set to the corresponding values from |rect| truncated
+                to an integer and clamped to the range of a 32-bit signed
+                integer, to |convertedRects|.
               </li>
             </ol>
           </li>
@@ -210,7 +251,8 @@
               </li>
               <li>
                 Ask the host operating system to set |targetWindow|'s shape to
-                the union of |convertedRects|.
+                the union of |convertedRects|, which are in the host operating
+                system window's Device Independent Pixel (DIP) coordinate space.
               </li>
               <li>[=resolve=] |promise| with {{undefined}}.</li>
             </ol>
