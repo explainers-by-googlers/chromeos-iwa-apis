@@ -151,6 +151,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "xref": {
     "specs": [
       "appmanifest",
+      "cssom-view",
       "dom",
       "geometry-1",
       "html",
@@ -166,7 +167,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "generatedSubtitle": "Unofficial Draft 22 July 2026"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD"></head>
-  <body class="h-entry informative" data-cite="WEBIDL appmanifest dom geometry-1 html infra manifest-incubations permissions webidl window-management HTML INFRA URL WEBIDL DOM FETCH"><div class="head">
+  <body class="h-entry informative" data-cite="WEBIDL appmanifest cssom-view dom geometry-1 html infra manifest-incubations permissions webidl window-management HTML INFRA URL WEBIDL DOM FETCH"><div class="head">
     
     <h1 id="title" class="title">ChromeOS APIs for Isolated Web Apps</h1> 
     <p id="w3c-state">Unofficial Draft <time class="dt-published" datetime="2026-07-22">22 July 2026</time></p>
@@ -229,7 +230,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         and does not represent the support or consensus of any standards
         organization.
       </p>
-    </section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#api-entry-points"><bdi class="secno">2. </bdi>API Entry Points</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#the-chromeos-attribute"><bdi class="secno">2.1 </bdi>The <span data-link-type="idl" data-xref-type="attribute|dict-member|const" data-link-for="Window" data-xref-for="Window" class="formerLink"><code>chromeos</code></span> attribute</a></li><li class="tocline"><a class="tocxref" href="#the-isolatedwebapp-attribute"><bdi class="secno">2.2 </bdi>The <span data-link-type="idl" data-xref-type="attribute|dict-member|const" data-link-for="ChromeOS" data-xref-for="ChromeOS" class="formerLink"><code>isolatedWebApp</code></span> attribute</a></li></ol></li><li class="tocline"><a class="tocxref" href="#window-shape-api"><bdi class="secno">3. </bdi>Window Shape API</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#security-and-privacy-considerations"><bdi class="secno">3.1 </bdi>Security and Privacy Considerations</a></li><li class="tocline"><a class="tocxref" href="#api-extension"><bdi class="secno">3.2 </bdi>API Extension</a></li><li class="tocline"><a class="tocxref" href="#the-setshape-method"><bdi class="secno">3.3 </bdi>The <span data-link-type="idl" data-xref-type="method" data-link-for="IsolatedWebApp" data-xref-for="IsolatedWebApp" data-lt="setShape()" class="formerLink"><code>setShape</code></span><code>()</code> method</a></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">A. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">A.1 </bdi>Informative references</a></li></ol></li></ol></nav>
+    </section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#api-entry-points"><bdi class="secno">2. </bdi>API Entry Points</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#the-chromeos-attribute"><bdi class="secno">2.1 </bdi>The <span data-link-type="idl" data-xref-type="attribute|dict-member|const" data-link-for="Window" data-xref-for="Window" class="formerLink"><code>chromeos</code></span> attribute</a></li><li class="tocline"><a class="tocxref" href="#the-isolatedwebapp-attribute"><bdi class="secno">2.2 </bdi>The <span data-link-type="idl" data-xref-type="attribute|dict-member|const" data-link-for="ChromeOS" data-xref-for="ChromeOS" class="formerLink"><code>isolatedWebApp</code></span> attribute</a></li></ol></li><li class="tocline"><a class="tocxref" href="#window-shape-api"><bdi class="secno">3. </bdi>Window Shape API</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#security-and-privacy-considerations"><bdi class="secno">3.1 </bdi>Security and Privacy Considerations</a></li><li class="tocline"><a class="tocxref" href="#coordinate-space-and-scaling"><bdi class="secno">3.2 </bdi>Coordinate Space and Scaling</a></li><li class="tocline"><a class="tocxref" href="#api-extension"><bdi class="secno">3.3 </bdi>API Extension</a></li><li class="tocline"><a class="tocxref" href="#the-setshape-method"><bdi class="secno">3.4 </bdi>The <span data-link-type="idl" data-xref-type="method" data-link-for="IsolatedWebApp" data-xref-for="IsolatedWebApp" data-lt="setShape()" class="formerLink"><code>setShape</code></span><code>()</code> method</a></li></ol></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">A. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#informative-references"><bdi class="secno">A.1 </bdi>Informative references</a></li></ol></li></ol></nav>
     <section id="introduction"><div class="header-wrapper"><h2 id="x1-introduction"><bdi class="secno">1. </bdi>Introduction</h2><a class="self-link" href="#introduction" aria-label="Permalink for Section 1."></a></div>
       
       <p>
@@ -302,7 +303,46 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
         </ul>
       </section>
 
-      <section id="api-extension"><div class="header-wrapper"><h3 id="x3-2-api-extension"><bdi class="secno">3.2 </bdi>API Extension</h3><a class="self-link" href="#api-extension" aria-label="Permalink for Section 3.2"></a></div>
+      <section id="coordinate-space-and-scaling"><div class="header-wrapper"><h3 id="x3-2-coordinate-space-and-scaling"><bdi class="secno">3.2 </bdi>Coordinate Space and Scaling</h3><a class="self-link" href="#coordinate-space-and-scaling" aria-label="Permalink for Section 3.2"></a></div>
+        
+        <p>
+          The coordinates and dimensions of the <a data-link-type="interface" data-lt="DOMRectReadOnly" href="https://www.w3.org/TR/geometry-1/#domrectreadonly"><code>DOMRectReadOnly</code></a> objects
+          passed to <a data-link-type="idl" data-lt="setShape()" href="#dom-isolatedwebapp-setshape" class="internalDFN" id="ref-for-dom-isolatedwebapp-setshape-1"><code>setShape</code></a><code>()</code> are specified in Device
+          Independent Pixels (DIPs) within the local coordinate space of the
+          operating system window. At 100% page zoom, 1 DIP corresponds to 1 CSS
+          pixel.
+        </p>
+        <p>
+          When the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agent</a> applies the shape to the underlying operating
+          system window:
+        </p>
+        <ul>
+          <li>
+            <strong>Fractional Coordinates:</strong> While <a data-link-type="interface" data-lt="DOMRectReadOnly" href="https://www.w3.org/TR/geometry-1/#domrectreadonly"><code>DOMRectReadOnly</code></a>
+            properties (<code>x</code>, <code>y</code>, <code>width</code>, <code>height</code>) accept floating-point
+            numbers, the host operating system window shape primitives operate
+            on integer pixel boundaries. When applying the shape, fractional DIP
+            coordinate values are truncated to integers and clamped to the range
+            of a 32-bit signed integer.
+          </li>
+          <li>
+            <strong>Device Pixel Ratio (DPR):</strong> On high-density displays
+            (where <a data-link-type="attribute" href="https://www.w3.org/TR/cssom-view-1/#dom-window-devicepixelratio"><code>devicePixelRatio</code></a> is not 1.0), the host window
+            compositor automatically scales DIP coordinates by the display's
+            device scale factor to determine physical device pixel boundaries.
+            Developers do not need to perform manual coordinate scaling.
+          </li>
+          <li>
+            <strong>Page Zoom:</strong> Because coordinates operate in window
+            DIPs rather than document CSS pixels, page zoom does not scale the
+            window shape. Developers only need to adjust coordinates on page
+            zoom changes if they intend for the window shape to scale alongside
+            zoomed DOM content.
+          </li>
+        </ul>
+      </section>
+
+      <section id="api-extension"><div class="header-wrapper"><h3 id="x3-3-api-extension"><bdi class="secno">3.3 </bdi>API Extension</h3><a class="self-link" href="#api-extension" aria-label="Permalink for Section 3.3"></a></div>
         
         <p>The Window Shape API extends the <a data-link-type="idl" data-lt="IsolatedWebApp" href="#dom-isolatedwebapp" class="internalDFN" id="ref-for-dom-isolatedwebapp-2"><code>IsolatedWebApp</code></a> interface.</p>
         <pre class="idl def" id="webidl-687414243"><span class="idlHeader"><a class="self-link" href="#webidl-687414243">WebIDL</a></span><code><span data-idl="" class="idlInterface" id="idl-def-isolatedwebapp-partial-1" data-title="IsolatedWebApp">partial interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-isolatedwebapp" id="ref-for-dom-isolatedwebapp-3"><code>IsolatedWebApp</code></a> {<span data-idl="" class="idlMethod" id="idl-def-isolatedwebapp-setshape-rects" data-title="setShape" data-dfn-for="IsolatedWebApp"><span class="idlType">
@@ -310,10 +350,10 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
 };</span></code></pre>
       </section>
 
-      <section id="the-setshape-method"><div class="header-wrapper"><h3 id="x3-3-the-setshape-method"><bdi class="secno">3.3 </bdi>The <a data-link-type="idl" data-lt="setShape()" href="#dom-isolatedwebapp-setshape" class="internalDFN" id="ref-for-dom-isolatedwebapp-setshape-1"><code>setShape</code></a><code>()</code> method</h3><a class="self-link" href="#the-setshape-method" aria-label="Permalink for Section 3.3"></a></div>
+      <section id="the-setshape-method"><div class="header-wrapper"><h3 id="x3-4-the-setshape-method"><bdi class="secno">3.4 </bdi>The <a data-link-type="idl" data-lt="setShape()" href="#dom-isolatedwebapp-setshape" class="internalDFN" id="ref-for-dom-isolatedwebapp-setshape-2"><code>setShape</code></a><code>()</code> method</h3><a class="self-link" href="#the-setshape-method" aria-label="Permalink for Section 3.4"></a></div>
         
         <p>
-          The <a data-link-type="idl" data-lt="setShape(|rects|)" href="#dom-isolatedwebapp-setshape" class="internalDFN" id="ref-for-dom-isolatedwebapp-setshape-2"><code>setShape</code></a><code>(<var>|rects|</var>)</code> method customizes the shape
+          The <a data-link-type="idl" data-lt="setShape(|rects|)" href="#dom-isolatedwebapp-setshape" class="internalDFN" id="ref-for-dom-isolatedwebapp-setshape-3"><code>setShape</code></a><code>(<var>|rects|</var>)</code> method customizes the shape
           of the window. When called, the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent">user agent</a> does the following
           steps:
         </p>
@@ -351,8 +391,9 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
               </li>
               <li>
                 <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-append">append</a> a new rectangle with <code>x</code>, <code>y</code>, <code>width</code>, and
-                <code>height</code> set to the corresponding values from <var>rect</var> clamped to
-                the range of a 32-bit signed integer, to <var>convertedRects</var>.
+                <code>height</code> set to the corresponding values from <var>rect</var> truncated
+                to an integer and clamped to the range of a 32-bit signed
+                integer, to <var>convertedRects</var>.
               </li>
             </ol>
           </li>
@@ -380,7 +421,8 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
               </li>
               <li>
                 Ask the host operating system to set <var>targetWindow</var>'s shape to
-                the union of <var>convertedRects</var>.
+                the union of <var>convertedRects</var>, which are in the host operating
+                system window's Device Independent Pixel (DIP) coordinate space.
               </li>
               <li><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#resolve">resolve</a> <var>promise</var> with <a data-link-type="interface" data-lt="undefined" href="https://webidl.spec.whatwg.org/#idl-undefined"><code>undefined</code></a>.</li>
             </ol>
@@ -444,7 +486,7 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
     <li>
       <a href="#ref-for-dom-isolatedwebapp-1" title="§ 2. API Entry Points">§ 2. API Entry Points</a> 
     </li><li>
-      <a href="#ref-for-dom-isolatedwebapp-2" title="§ 3.2 API Extension">§ 3.2 API Extension</a> <a href="#ref-for-dom-isolatedwebapp-3" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dom-isolatedwebapp-2" title="§ 3.3 API Extension">§ 3.3 API Extension</a> <a href="#ref-for-dom-isolatedwebapp-3" title="Reference 2">(2)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dom-isolatedwebapp-setshape" aria-label="Links in this document to definition: setShape">
@@ -457,7 +499,9 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dom-isolatedwebapp-setshape-1" title="§ 3.3 The setShape() method">§ 3.3 The setShape() method</a> <a href="#ref-for-dom-isolatedwebapp-setshape-2" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dom-isolatedwebapp-setshape-1" title="§ 3.2 Coordinate Space and Scaling">§ 3.2 Coordinate Space and Scaling</a> 
+    </li><li>
+      <a href="#ref-for-dom-isolatedwebapp-setshape-2" title="§ 3.4 The setShape() method">§ 3.4 The setShape() method</a> <a href="#ref-for-dom-isolatedwebapp-setshape-3" title="Reference 2">(2)</a> 
     </li>
   </ul>
     </div><script id="respec-copy-paste">
@@ -475,6 +519,8 @@ interface <dfn data-export="" data-dfn-type="interface" id="dom-isolatedwebapp" 
     
     <dl class="bibliography"><dt id="bib-appmanifest">[appmanifest]</dt><dd>
       <a href="https://www.w3.org/TR/appmanifest/"><cite>Web Application Manifest</cite></a>. Marcos Caceres; Daniel Murphy; Christian Liebel.  W3C. 7 May 2026. W3C Working Draft. URL: <a href="https://www.w3.org/TR/appmanifest/">https://www.w3.org/TR/appmanifest/</a>
+    </dd><dt id="bib-cssom-view">[cssom-view]</dt><dd>
+      <a href="https://www.w3.org/TR/cssom-view-1/"><cite>CSSOM View Module</cite></a>. Simon Fraser; Emilio Cobos Álvarez.  W3C. 16 September 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/cssom-view-1/">https://www.w3.org/TR/cssom-view-1/</a>
     </dd><dt id="bib-geometry-1">[geometry-1]</dt><dd>
       <a href="https://www.w3.org/TR/geometry-1/"><cite>Geometry Interfaces Module Level 1</cite></a>. Sebastian Zartner; Yehonatan Daniv.  W3C. 4 December 2025. CRD. URL: <a href="https://www.w3.org/TR/geometry-1/">https://www.w3.org/TR/geometry-1/</a>
     </dd><dt id="bib-html">[html]</dt><dd>
