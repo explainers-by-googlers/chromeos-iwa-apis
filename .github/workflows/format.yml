@@ -20,7 +20,7 @@ jobs:
       - name: Format files with Prettier
         run: npx prettier --write "**/*.{md,html,yml,json}"
       - name: Auto-commit formatting changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "style: Auto-format with Prettier"
           file_pattern: "*.md *.html *.yml *.json"
